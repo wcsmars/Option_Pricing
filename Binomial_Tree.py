@@ -1,5 +1,28 @@
 import numpy as np
 
+def main():
+    European_or_American = input("European or American option (E / A): ").upper()
+    while European_or_American not in ['E', 'A']:
+        European_or_American = input("Invalid input. Please enter 'E' for European or 'A' for American: ").upper()
+
+    option_type = input("Call or Put option (C / P): ").upper()
+    while option_type not in ['C', 'P']:
+        option_type = input("Invalid input. Please enter 'C' for Call or 'P' for Put: ").upper()
+
+    try:
+        spot_price = float(input("Enter the spot price of the underlying asset: "))
+        strike_price = float(input("Enter the strike price of the option: "))
+        risk_free_rate = float(input("Enter the risk-free rate (as a decimal): "))
+        dividend_yield = float(input("Enter the dividend yield (as a decimal, enter 0 if none): "))
+        time_to_maturity = float(input("Enter the time to maturity in years: "))
+        standard_deviation = float(input("Enter the standard deviation of the underlying asset (as a decimal): "))
+        number_of_period = int(input("Enter the number of periods: "))
+    except ValueError:
+        print("Invalid input. Please enter a numerical value.")
+
+    option_price = binomial_tree_pricer(European_or_American, option_type, spot_price, strike_price, risk_free_rate, dividend_yield, time_to_maturity, standard_deviation, number_of_period)
+    print(f"The price of the {'call' if option_type == 'C' else 'put'} option is: ${option_price:}")
+
 def binomial_tree_pricer(European_or_American, option_type, spot_price, strike_price, risk_free_rate, dividend_yield, time_to_maturity, standard_deviation, number_of_period):
 
     dt = time_to_maturity / number_of_period
@@ -37,24 +60,4 @@ def binomial_tree_pricer(European_or_American, option_type, spot_price, strike_p
     return option_values[0]
 
 if __name__ == '__main__':
-    European_or_American = input("European or American option (E / A): ").upper()
-    while European_or_American not in ['E', 'A']:
-        European_or_American = input("Invalid input. Please enter 'E' for European or 'A' for American: ").upper()
-
-    option_type = input("Call or Put option (C / P): ").upper()
-    while option_type not in ['C', 'P']:
-        option_type = input("Invalid input. Please enter 'C' for Call or 'P' for Put: ").upper()
-
-    try:
-        spot_price = float(input("Enter the spot price of the underlying asset: "))
-        strike_price = float(input("Enter the strike price of the option: "))
-        risk_free_rate = float(input("Enter the risk-free rate (as a decimal): "))
-        dividend_yield = float(input("Enter the dividend yield (as a decimal, enter 0 if none): "))
-        time_to_maturity = float(input("Enter the time to maturity in years: "))
-        standard_deviation = float(input("Enter the standard deviation of the underlying asset (as a decimal): "))
-        number_of_period = int(input("Enter the number of periods: "))
-    except ValueError:
-        print("Invalid input. Please enter a numerical value.")
-
-    option_price = binomial_tree_pricer(European_or_American, option_type, spot_price, strike_price, risk_free_rate, dividend_yield, time_to_maturity, standard_deviation, number_of_period)
-    print(f"The price of the {'call' if option_type == 'C' else 'put'} option is: ${option_price:}")
+    main()
